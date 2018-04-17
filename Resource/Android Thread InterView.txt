@@ -1,0 +1,44 @@
+
+
+private void button1_click() throws InterruptedException {
+    AlertDialog dialog = new AlertDialog.Builder(this)
+            .setMessage("加载中...")
+            .show();
+    Thread.sleep(5000);
+    button1.setText("加载完毕");
+    dialog.dismiss();
+}
+
+
+
+
+private void button1_click(View view) {
+    final AlertDialog dialog = new AlertDialog.Builder(this)
+            .setMessage("加载中...")
+            .show();
+
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(5000);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        button1.setText("加载完毕1");
+                    }
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }).start();
+
+    button1.postDelayed(new Runnable() {
+        @Override
+        public void run() {
+            button1.setText("加载完毕2");
+            dialog.dismiss();
+        }
+    },3000);
+}
